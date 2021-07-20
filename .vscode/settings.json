@@ -2,9 +2,9 @@
   // "extensions.autoUpdate": false,
   // "telemetry.enableTelemetry": false,
   "terminal.integrated.defaultProfile.windows": "Command Prompt",
-  // "files.autoSave": "onFocusChange",
-  // "workbench.startupEditor": "none",
-  // "window.zoomLevel": 0.1, //全視窗縮放的比例
+  "files.autoSave": "onFocusChange",
+  "workbench.startupEditor": "none",
+  "window.zoomLevel": 0.1, //全視窗縮放的比例
   "workbench.tree.indent": 20, //檔案總管的樹列縮排
   "telemetry.enableCrashReporter": false,
   "workbench.sideBar.location": "right",
@@ -25,8 +25,7 @@
   //   "strings": true
   // }, //開啟自動顯示建議
   // "editor.tabSize": 5, //Tab的空格數
-  // "editor.formatOnSave": true, //儲存自動修正
-  "editor.codeActionsOnSave": {"source.fixAll": true},//儲存自動修正
+  "editor.formatOnSave": true, //儲存自動修正
   // "html.format.wrapAttributes": "force-expand-multiline", //讓屬性強制換行
   // "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
   //【highlightLine】
@@ -34,8 +33,10 @@
   "highlightLine.borderWidth": "2px",
   "highlightLine.borderColor": "yellow",
   //【eslint】
-    "eslint.format.enable": true,
-  //"eslint.autoFixOnSave": true, // 每次保存的時候將代碼按eslint格式進行修復
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  }, //儲存自動修正 // 每次保存的時候將代碼按eslint格式進行修復
   // "eslint.validate": [
   //    //開啟對.vue文件中錯誤的檢查
   //    "javascript",
@@ -57,9 +58,9 @@
   // "vetur.format.defaultFormatter.html": "js-beautify-html", //格式化.vue中html
   // "vetur.format.defaultFormatter.js": "vscode-typescript", //讓vue中的js按編輯器自帶的ts格式進行格式化
   // "vetur.format.defaultFormatterOptions": {
-  //    "js-beautify-html": {
-  //       "wrap_attributes": "force-aligned" //屬性強制折行對齊
-  //    }
+  //   "js-beautify-html": {
+  //     "wrap_attributes": "force-aligned" //屬性強制折行對齊
+  //   }
   // },
   //【prettier】
   // tabWidth: 3, //一個tab代表幾個空格數，默認為80
