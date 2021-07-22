@@ -78,17 +78,18 @@ export default new Vuex.Store({
         todo: todos[tId] // 回應更新後的寫法
       }
     },
-    UPDATE_TODOS ({ commit }, { tId, todo }) {
+    UPDATE_TODOS ({ commit, state }, { tId, editTodo }) {
+      if (state.todos[tId].content === editTodo.content) return
       // 1. update  //API axios.patch('')
       const todos = localStorage.load()
-      todos.splice(tId, 1, todo) // 整個更新的寫法
+      todos.splice(tId, 1, editTodo) // 整個更新的寫法
       localStorage.save(todos)
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
       return {
         tId,
-        todo
+        todo: editTodo
       }
     },
     DELETE_TODOS ({ commit }, { tId }) {

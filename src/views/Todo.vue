@@ -21,13 +21,15 @@
         :todo="item.todo"
         :edit="item.tId === edit"
         @check="value => checkHandler(item.tId,value)"
+        @editThis="edit = item.tId"
+        @editComplete="value => editCompleteHandler(item.tId,value)"
       />
     </ul>
   </div>
 </template>
 
 <script>
-import Todoitem from '../components/Todoitem.vue'
+import Todoitem from '@/components/Todoitem.vue'
 
 export default {
   components: {
@@ -48,6 +50,11 @@ export default {
     checkHandler (tId, done) {
       // console.log(tId, done)
       this.$store.dispatch('UPDATE_TODOS_DONE', { tId, done })
+    },
+    editCompleteHandler (tId, editTodo) {
+      this.edit = null
+      // console.log(tId, editTodo.content, editTodo.done)
+      this.$store.dispatch('UPDATE_TODOS', { tId, editTodo })
     }
   },
   watch: {
@@ -60,6 +67,7 @@ export default {
     $route: {
       immediate: true,
       handler: function (router) {
+        this.edit = null
         // check query 可以加判斷式檢查query是否正確來轉址
         this.filter = router.query.filter || 'all'
       }
@@ -70,3 +78,15 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.todo a {
+  color: black;
+  text-decoration: none;
+}
+
+.todo .router-link-exact-active {
+  color:red;
+  font-weight: bold;
+}
+</style>

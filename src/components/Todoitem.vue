@@ -2,9 +2,11 @@
       <li>
         <template v-if="!edit">
           <input type="checkbox" v-model="done">{{ content }}
+          <button @click="$emit('editThis')">編輯</button>
         </template>
         <template v-else>
           <input type="text" v-model="content">
+          <button @click="$emit('editComplete', editTodo)">完成</button>
         </template>
       </li>
 </template>
@@ -27,7 +29,7 @@ export default {
         return this.todo.content
       },
       set (value) {
-        // this.todo.content = value
+        this.editTodo.content = value
       }
     },
     done: {
@@ -35,21 +37,23 @@ export default {
         return this.todo.done
       },
       set (value) {
-        // this.todo.done = value
+        this.editTodo.done = value
         this.$emit('check', value)
       }
     }
+  },
+  data () {
+    return {
+      editTodo: {
+        content: '',
+        done: false
+      }
+    }
+  },
+  mounted () {
+    this.editTodo.done = this.done
+    this.editTodo.content = this.content
   }
-  // data () {
-  //   return {
-  //     content: '',
-  //     done: false
-  //   }
-  // },
-  // mounted () {
-  //   this.content = this.todo.content
-  //   this.done = this.todo.done
-  // },
   // watch: {
   //   done: {
   //     // deep: true, // 偵聽物件要加
@@ -61,7 +65,3 @@ export default {
   // }
 }
 </script>
-
-<style>
-
-</style>
