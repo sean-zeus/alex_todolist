@@ -4,11 +4,12 @@ import LocalStorage from '../modules/LocalStorage'
 
 Vue.use(Vuex)
 
-const STORE = LocalStorage('todo-vue')
+const localStorage = LocalStorage('todo-vue')
 
 export default new Vuex.Store({
   state: {
-    todos: [{ content: 123, done: false }, { content: 456, done: true }, { content: 789, done: false }]
+    // todos: [{ "content": 123, done: false }, { "content": 456, done: true }, { "content": 789, done: false }]
+    todos: []
   },
   getters: {
     list (state) {
@@ -32,7 +33,7 @@ export default new Vuex.Store({
           status = true
           break
       }
-      return getters.list.filter(todo => { return todo.todo.done === status })
+      return getters.list.filter((todo) => { return todo.todo.done === status })
     }
   },
   mutations: {
@@ -43,9 +44,9 @@ export default new Vuex.Store({
   actions: {
     CREATE_TODOS ({ commit }, { todo }) {
       // 1. post  //API axios.post('')
-      const todos = STORE.load()
+      const todos = localStorage.load()
       todos.push(todo)
-      STORE.save(todos)
+      localStorage.save(todos)
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
@@ -56,7 +57,7 @@ export default new Vuex.Store({
     },
     READ_TODOS ({ commit }) {
       // 1. load //API axios.get('')
-      const todos = STORE.load()
+      const todos = localStorage.load()
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
@@ -64,28 +65,37 @@ export default new Vuex.Store({
         todos
       }
     },
-    UPDATE_TODOS ({ commit }, { tId, todo }) {
+    UPDATE_TODOS_DONE ({ commit }, { tId, done }) {
       // 1. update  //API axios.patch('')
-      const todos = STORE.load()
-
-      todos.splice(tId, 1, todo) // 整個更新的寫法
-      // todos[tId].txt = todo.txt // 只更新某屬性的寫法
-
-      STORE.save(todos)
+      const todos = localStorage.load()
+      todos[tId].done = done // 只更新某屬性的寫法
+      localStorage.save(todos)
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
       return {
         tId,
-        // todo, todos[tId], //回應更新後的寫法
+        todo: todos[tId] // 回應更新後的寫法
+      }
+    },
+    UPDATE_TODOS ({ commit }, { tId, todo }) {
+      // 1. update  //API axios.patch('')
+      const todos = localStorage.load()
+      todos.splice(tId, 1, todo) // 整個更新的寫法
+      localStorage.save(todos)
+      // 2. commit mutation
+      commit('SET_TODOS', todos)
+      // 3. return
+      return {
+        tId,
         todo
       }
     },
     DELETE_TODOS ({ commit }, { tId }) {
       // 1. delete  //API axios.delete('')
-      const todos = STORE.load()
+      const todos = localStorage.load()
       const todo = todos.splice(tId, 1)[0]
-      STORE.save(todos)
+      localStorage.save(todos)
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
@@ -97,7 +107,7 @@ export default new Vuex.Store({
     CLEAR_TODOS ({ commit }) {
       // 1. delete all  //API axios.delete('')
       const todos = []
-      STORE.save(todos)
+      localStorage.save(todos)
       // 2. commit mutation
       commit('SET_TODOS', todos)
       // 3. return
